@@ -1,0 +1,7 @@
+﻿"BearingBaseDistance"= 12
+"BearingOD"= 32"BearingID" = 25
+"BearingHeight"= 4
+"SeatsOD"= "BearingOD" + 10
+"WireHarnessHeight"= 0.05in * 4 + 4.5
+"OuterWallWidth"= 6
+"OverallOD" = 50"RetainingRingThickness" = 1.30"RetaininRingGrooveDiameter" = 23.9"ShaftLengthAfterFlange" = 2*"BearingHeight" + "BearingBaseDistance" + "RetainingRingThickness"*2	'give a retaining ring thickness of extra clearance"RetainingRingGrooveBase" = "ShaftLengthAfterFlange" - "RetainingRingThickness"*2"CoverThickness" = 1"CoverClearance" = 1"FlangHeight" = "CoverThickness" + "CoverClearance" + "WireHarnessHeight"
