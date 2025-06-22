@@ -41,3 +41,6 @@ stiffener/~$*
 
 3dPrinting/
 SendCutSend/
+
+*.stp
+*step
