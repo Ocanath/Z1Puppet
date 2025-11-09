@@ -11,7 +11,7 @@ Parameters:
 - r_inner: Inner radius of the clock spring
 - r_outer: Outer radius of the clock spring  
 - theta_max: Maximum rotation angle
-- theta_offset: Angular offset between static reference frame (stator) and rotating frame (rotor)
+- theta_offset: Rotor angular position (stator always fixed at theta=0)
 """
 
 import sympy as sp
@@ -28,6 +28,7 @@ class ClockSpringCurve:
     The clock spring is modeled as a planar Archimedean spiral that transitions
     from inner radius to outer radius over a specified angular range.
     Designed for flat cables with strain relief at endpoints.
+    Stator (inner) end is always at theta=0, rotor (outer) end position varies with theta_offset.
     """
     
     def __init__(self):
@@ -36,7 +37,7 @@ class ClockSpringCurve:
         self.r_inner = sp.Symbol('r_inner', positive=True)  # Inner radius
         self.r_outer = sp.Symbol('r_outer', positive=True)  # Outer radius
         self.theta_max = sp.Symbol('theta_max', positive=True)  # Maximum rotation angle
-        self.theta_offset = sp.Symbol('theta_offset', real=True)  # Angular offset between frames
+        self.theta_offset = sp.Symbol('theta_offset', real=True)  # Rotor position (stator fixed at theta=0)
         
         
         # Generate parametric equations
@@ -48,8 +49,9 @@ class ClockSpringCurve:
         # Radius varies linearly from inner to outer
         self.radius = self.r_inner + (self.r_outer - self.r_inner) * self.t
         
-        # Angle varies from 0 to theta_max, plus any offset
-        self.angle = self.theta_max * self.t + self.theta_offset
+        # Angle: stator at theta=0 (t=0), rotor at theta_offset + theta_max (t=1)
+        # This keeps stator fixed while rotor position changes with theta_offset
+        self.angle = self.theta_max * self.t + self.theta_offset * self.t
         
         # Cartesian coordinates (planar curve, z=0)
         self.x = self.radius * sp.cos(self.angle)
@@ -140,7 +142,16 @@ class ClockSpringCurve:
         # Generate points
         points = self.generate_points(values, num_points)
         x_points, y_points, z_points = points[:, 0], points[:, 1], points[:, 2]
-        
+        length = 0
+        for i in range(1,num_points):
+            prev_i = i-1
+            dx = x_points[i] - x_points[prev_i]
+            dy = y_points[i] - y_points[prev_i]
+            dz = z_points[i] - z_points[prev_i]
+            dt_dist = np.sqrt(dx**2 + dy**2 + dz**2)
+            length = length + dt_dist
+        print(f"Total length is approximately {length}mm")
+
         # Create 3D plot
         fig = plt.figure(figsize=figsize)
         ax = fig.add_subplot(111, projection='3d')
@@ -205,9 +216,9 @@ def main():
     
     # Example parameter values
     params = {
-        clock_spring.r_inner: 10,      # Inner radius: 10 mm
+        clock_spring.r_inner: 40,      # Inner radius: 10 mm
         clock_spring.r_outer: 50,      # Outer radius: 50 mm
-        clock_spring.theta_max: 10*sp.pi,  # 2 full rotations
+        clock_spring.theta_max: 2*sp.pi,  # 2 full rotations
         clock_spring.theta_offset: 0   # No angular offset
     }
     
@@ -215,12 +226,12 @@ def main():
     print(f"Inner radius: {params[clock_spring.r_inner]} mm")
     print(f"Outer radius: {params[clock_spring.r_outer]} mm")
     print(f"Max angle: {params[clock_spring.theta_max]/(sp.pi)} pi radians")
-    print(f"Angular offset: {params[clock_spring.theta_offset]} radians")
+    print(f"Rotor position: {params[clock_spring.theta_offset]} radians (stator fixed at 0)")
     print("Planar curve (z = 0) for flat cable applications")
     print()
     
     # Generate numerical points
-    points = clock_spring.generate_points(params, num_points=50)
+    points = clock_spring.generate_points(params, num_points=1000)
     print(f"Generated {len(points)} points along the curve")
     print("First 5 points [x, y, z]:")
     for i in range(5):
@@ -229,7 +240,7 @@ def main():
     
     # Plot the 3D curve
     print("Generating 3D plot...")
-    clock_spring.plot_curve(params, num_points=200)
+    clock_spring.plot_curve(params, num_points=1000)
 
 
 if __name__ == "__main__":

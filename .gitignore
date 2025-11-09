@@ -44,3 +44,5 @@ SendCutSend/
 
 *.stp
 *step
+
+.claude/
