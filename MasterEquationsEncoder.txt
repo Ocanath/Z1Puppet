@@ -1,7 +1,7 @@
-﻿"BearingBaseDistance"= 12
+﻿"BearingBaseDistance"= 10
 "BearingOD"= 32"BearingID" = 25
 "BearingHeight"= 4
 "SeatsOD"= "BearingOD" + 10
-"WireHarnessHeight"= 0.05in * 4 + 4.5
+"WireHarnessHeight"= 4
 "OuterWallWidth"= 6
-"OverallOD" = 50"OuterHousingHeight" = "WireHarnessHeight" + "BearingHeight"*2 + "BearingBaseDistance""RetainingRingThickness" = 1.30"RetaininRingGrooveDiameter" = 23.9"ShaftLengthAfterFlange" = 2*"BearingHeight" + "BearingBaseDistance" + "RetainingRingThickness"*2	'give a retaining ring thickness of extra clearance"RetainingRingGrooveBase" = "ShaftLengthAfterFlange" - "RetainingRingThickness"*2"CoverThickness" = 1"CoverClearance" = 1"FlangHeight" = "CoverThickness" + "CoverClearance" + "WireHarnessHeight""PCBWidth" = 5"PCBHeight" = "OuterHousingHeight" "PCBThickness" = 1"NormalDistSidewallPCBToZ" = 23.55	'radial distance from the z axis to pcb origin on the top/connector side"PCBSidewallCutoutClearance" = 0.1
+"OverallOD" = 45"OuterHousingHeight" = "WireHarnessHeight" + "BearingHeight"*2 + "BearingBaseDistance""RetainingRingThickness" = 1.30"RetaininRingGrooveDiameter" = 23.9"ShaftLengthAfterFlange" = 2*"BearingHeight" + "BearingBaseDistance" + "RetainingRingThickness"*2	'give a retaining ring thickness of extra clearance"RetainingRingGrooveBase" = "ShaftLengthAfterFlange" - "RetainingRingThickness"*2"CoverThickness" = 1"CoverClearance" = 1"FlangHeight" = "CoverThickness" + "CoverClearance" + "WireHarnessHeight""PCBWidth" = 5"PCBHeight" = "OuterHousingHeight" "PCBThickness" = 1"NormalDistSidewallPCBToZ" = ("OverallOD"/2) - 1.6	'radial distance from the z axis to pcb origin on the top/connector side"PCBSidewallCutoutClearance" = 0.1"OutputHubBoltCircleRadius" = 8"OutputHubOD" = 27"StatorWireRadius" = "NormalDistSidewallPCBToZ" - 5.7"MountingHoleRadius" = ("OverallOD"+"BearingOD")/4
